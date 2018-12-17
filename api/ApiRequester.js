@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_PATH = "api.innovationsinsight.nl/";
+const BASE_PATH = "http://innovationsconnect.herokuapp.com/";
 
 class ApiRequester {
 
