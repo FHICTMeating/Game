@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_PATH = "http://localhost:8080/api/";
+const BASE_PATH = "api.innovationsinsight.nl/";
 
 class ApiRequester {
 
