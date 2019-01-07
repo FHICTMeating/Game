@@ -1,5 +1,5 @@
 import React from 'react';
-import RegisterEndpoint from '../api/RegisterEndpoint';
+import ApiRequester from '../api/ApiRequester';
 
 import {
   ActivityIndicator,
@@ -28,6 +28,32 @@ export default class StatementScreen extends React.Component {
     this.state = { text: 'Type hier statement' };
   }
 
+  getAsyncStorageData = async () => {
+    let playerId = '';
+    let gameId = '';
+
+    try {
+      playerId = await AsyncStorage.getItem('playerId') || 'none';
+      gameId = await AsyncStorage.getItem('gameId') || 'none';
+    } catch (error) {
+      console.log(error.message);
+    }
+    return { playerId: playerId, gameId: gameId };
+  }
+
+  async componentDidMount() {
+
+    try {
+      const { playerId, gameId } = await this.getAsyncStorageData()
+
+      const role = await ApiRequester.getRole(gameId, playerId);
+      const content = await ApiRequester.getContent(gameId, playerId);
+      this.setState({ role: role, content: content });
+    } catch (err) {
+      console.log("Error fetching data--- ", err);
+    }
+
+  }
 
   textInputField = () => {
     const isLeader = true;
@@ -44,6 +70,8 @@ export default class StatementScreen extends React.Component {
   }
 
   render() {
+    // const { role, content } = this.state;
+
     return (
       <View style={styles.container}>
         <View style={styles.headingTextContainer}>
