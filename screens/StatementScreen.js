@@ -7,6 +7,7 @@ import {
   AsyncStorage,
   Text,
   View,
+  TextInput
 } from 'react-native';
 
 const content = {
@@ -22,10 +23,24 @@ export default class StatementScreen extends React.Component {
     header: null,
   };
 
+  constructor(props) {
+    super(props);
+    this.state = { text: 'Type hier statement' };
+  }
 
 
-  constructor() {
-    super();
+  textInputField = () => {
+    const isLeader = true;
+
+    if (isLeader) {
+      return (
+        <TextInput
+          style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
+          onChangeText={(text) => this.setState({ text })}
+          value={this.state.text}
+        />
+      )
+    }
   }
 
   render() {
@@ -40,9 +55,11 @@ export default class StatementScreen extends React.Component {
           <Text style={[styles.defaultText, styles.statementText]}>{content.sText}</Text>
 
           <Text style={styles.defaultText}>Jou woord is;</Text>
-          <Text style={[styles.defaultText, styles.statementText]}>{content.sWord}</Text> 
+          <Text style={[styles.defaultText, styles.statementText]}>{content.sWord}</Text>
         </View>
-        
+        {
+          this.textInputField()
+        }
       </View>
     );
   }
@@ -51,8 +68,8 @@ export default class StatementScreen extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal:50,
-    paddingVertical:50,
+    paddingHorizontal: 50,
+    paddingVertical: 50,
     //API call voor color van het team
     backgroundColor: '#A42323',
     flex: 1,
