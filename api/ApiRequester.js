@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-// const BASE_PATH = "http://innovationsconnect.herokuapp.com/";
-const BASE_PATH = "http://localhost:3030/";
+const BASE_PATH = "http://innovationsconnect.herokuapp.com/sequencegame/";
+//const BASE_PATH = "http://localhost:3030/";
 
 class ApiRequester {
 
@@ -21,10 +21,10 @@ class ApiRequester {
 				'Access-Control-Allow-Origin': '*'
 			}
 		});
-    }
+	}
 
-    GetDetails(id) {
-		console.log(this.PATH + id);
+    GetDetails(gameId, playerId) {
+		console.log(this.PATH + gameId + "/" + playerId);
         return axios({
 			method: 'GET',
 			url: this.PATH + id,
@@ -36,7 +36,52 @@ class ApiRequester {
 				'Access-Control-Allow-Origin': '*'
 			}
 		});
-    }
+	}
+	
+	//Get role of player
+	getRole(gameId, playerId) {
+		var json = getDetails(gameId, playerId);
+		return json.playerRole;
+	}
+
+	//Get content for player
+	getContent(gameId, playerId) {
+		var json = getDetails(gameId, playerId);
+		return json.content;
+	}
+
+	//boolean checking if statement is correct
+	statementCheck(gameId, sentence) {
+		return axios({
+			method: 'POST',
+			url: this.PATH,
+			headers: {
+				'Cache-Control': 'no-cache',
+				'Pragma': 'no-cache',
+				'Expires': 0,
+				'Access-Control-Allow-Origin': '*'
+            },
+            answer: sentence
+		});
+	}
+
+	//Answering the statement
+	answerStatement(gameId, sentence) {
+		return axios({
+			method: 'POST',
+			url: this.PATH + "answer/" + gameId,
+			headers: {
+				'Cache-Control': 'no-cache',
+				'Pragma': 'no-cache',
+				'Expires': 0,
+				'Access-Control-Allow-Origin': '*'
+            },
+            answer: sentence
+		});
+	}
+
+
+
 
     Post(body) {
         return axios({
@@ -48,7 +93,7 @@ class ApiRequester {
 				'Expires': 0,
 				'Access-Control-Allow-Origin': '*'
             },
-            data: body
+            answer: body
 		});
     }
 
